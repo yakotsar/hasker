@@ -1,5 +1,5 @@
 */__pycache__/*
 */*/__pycache__/*
-hasker/migration/0*
+hasker/migrations/0*
 utils/new_begining.sh
-db.sqlite3
+./db.sqlite3
