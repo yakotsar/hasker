@@ -51,4 +51,4 @@ class Answer(BaseEntryModel):
     votes = models.SmallIntegerField(default=0)
     
     def __str__(self):
-        return "{}'s answer to {}".format(self.created_by, self.to_question)
+        return "{}'s answer to {}".format(self.author, self.to_question)
