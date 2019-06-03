@@ -2,3 +2,4 @@
 */*/__pycache__/*
 hasker/migration/0*
 utils/new_begining.sh
+db.sqlite3
