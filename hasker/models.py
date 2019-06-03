@@ -4,10 +4,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.db import models
 
-# https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.FileField.upload_to
-def user_directory_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
-    return 'user_{0}/{1}'.format(instance.user.id, filename)
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
@@ -18,6 +14,7 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.tag
+
 
 # https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.SET
 def get_sentinel_user():
@@ -38,7 +35,9 @@ class BaseEntryModel(models.Model):
 class Question(BaseEntryModel):
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255)
-    # name 'Answer' is not defined
+    best_answer = models.ForeignKey('Answer', on_delete=models.SET_NULL, null=True)
+
+    # wtf 'name 'Answer' is not defined'
     #best_answer = models.ForeignKey(Answer, on_delete=SET_NULL, related_name='question')
 
     def __str__(self):
