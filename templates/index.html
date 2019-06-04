@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %} index {% endblock %}
+
+{% block content %}
+    <div class="row border-bottom justify-content-center">
+        <ul class="nav justify-content-center">
+
+            <li class="nav-item">
+                <a class="nav-link active" href="#">New questions</a>
+            </li>
+            <li class="nav-item"> 
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Hot questions</a>
+            </li>
+        </ul>
+    </div>
+    {% for question in questions %}
+    <div class="row border-bottom">
+        <div class="col-2">
+            42
+            <br>
+            Votes
+        </div>
+        <div class="col-2">
+            {{ question.answers_count }}
+            <br>
+            Answers
+        </div>
+        <div class="col-4">
+            <strong>{{ question.title }}</strong>
+            <br>
+            {% for tag in question.tags.all %}
+                <span class="badge badge-secondary">{{ tag.tag }}</span>
+            {% endfor %}
+        </div>
+        <div class="col-4">
+            {{ question.author }}
+            <br>
+            asked some time ago
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
+{% block trending %}
+        <button type="button">
+            Ask!
+        </button>
+        <h1> Trending </h1>
+        <p>Placeholder for trends</p>
+        <p>Placeholder for trends</p>
+        <p>Placeholder for trends</p>
+        <p>Placeholder for trends</p>
+        <p>Placeholder for trends</p>
+{% endblock %}
