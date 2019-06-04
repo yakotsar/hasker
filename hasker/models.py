@@ -35,10 +35,15 @@ class BaseEntryModel(models.Model):
 class Question(BaseEntryModel):
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255)
-    best_answer = models.ForeignKey('Answer', on_delete=models.SET_NULL, null=True)
+    best_answer = models.ForeignKey('Answer', default=None, on_delete=models.SET_NULL, null=True)
+    answers_count = models.SmallIntegerField(default=0)
 
-    # wtf 'name 'Answer' is not defined'
-    #best_answer = models.ForeignKey(Answer, on_delete=SET_NULL, related_name='question')
+    def tag_summary(self):
+        return ' '.join(t.tag for t in self.tags.all())
+
+    def count_answers(self):
+        self.answers_count = Answer.objects.filter(to_question=self).count()
+        self.save()
 
     def __str__(self):
         return self.title
@@ -50,4 +55,14 @@ class Answer(BaseEntryModel):
     votes = models.SmallIntegerField(default=0)
     
     def __str__(self):
-        return "{}'s answer to {}".format(self.author, self.to_question)
+        ch_lim=15
+        short_answer = self.body if len(self.body)<ch_lim else self.body[:ch_lim] +'...'
+        return short_answer
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.to_question.count_answers()
+        
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.to_question.count_answers()
