@@ -22,7 +22,7 @@ def get_sentinel_user():
 
 class BaseEntryModel(models.Model):
     created = models.DateTimeField(default=timezone.now)
-    body = models.TextField()
+    text = models.TextField()
     author = models.ForeignKey(
             get_user_model(),
             on_delete=models.SET(get_sentinel_user),
@@ -36,17 +36,15 @@ class Question(BaseEntryModel):
     tags = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=255)
     best_answer = models.ForeignKey('Answer', default=None, on_delete=models.SET_NULL, null=True)
-    answers_count = models.SmallIntegerField(default=0)
-
-    def tag_summary(self):
-        return ' '.join(t.tag for t in self.tags.all())
-
-    def count_answers(self):
-        self.answers_count = Answer.objects.filter(to_question=self).count()
-        self.save()
 
     def __str__(self):
         return self.title
+
+    def votes_count(self):
+        return sum(answer.votes for answer in self.answers.all())
+
+    def answers_count(self):
+        return self.answers.all().count()
 
 
 class Answer(BaseEntryModel):
@@ -56,13 +54,5 @@ class Answer(BaseEntryModel):
     
     def __str__(self):
         ch_lim=15
-        short_answer = self.body if len(self.body)<ch_lim else self.body[:ch_lim] +'...'
+        short_answer = self.text if len(self.text)<ch_lim else self.text[:ch_lim] +'...'
         return short_answer
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.to_question.count_answers()
-        
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        self.to_question.count_answers()

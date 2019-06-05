@@ -1,57 +1,42 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %} index {% endblock %}
 
 {% block content %}
     <div class="row border-bottom justify-content-center">
-        <ul class="nav justify-content-center">
+        <ul class="nav">
 
             <li class="nav-item">
-                <a class="nav-link active" href="#">New questions</a>
+                <a class="nav-link active" href="#">$New questions</a>
             </li>
             <li class="nav-item"> 
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">|</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Hot questions</a>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">$Hot questions</a>
             </li>
         </ul>
     </div>
     {% for question in questions %}
-    <div class="row border-bottom">
-        <div class="col-2">
-            42
-            <br>
-            Votes
-        </div>
-        <div class="col-2">
-            {{ question.answers_count }}
-            <br>
-            Answers
+    <div class="row border-bottom py-2">
+        <div class="col-2">{{ question.votes_count }}</div>
+        <div class="col-2">{{ question.answers_count }}</div>
+        <div class="col-8"><b>{{ question.title }}</b></div>
+        <div class="w-100"></div>
+        <div class="col-2"><small>Votes</small></div>
+        <div class="col-2"><small>Answers</small></div>
+        <div class="col-4">
+                {% for tag in question.tags.all %}
+                    <span class="badge badge-secondary">{{ tag.tag }}</span>
+                {% endfor %}
         </div>
         <div class="col-4">
-            <strong>{{ question.title }}</strong>
-            <br>
-            {% for tag in question.tags.all %}
-                <span class="badge badge-secondary">{{ tag.tag }}</span>
-            {% endfor %}
-        </div>
-        <div class="col-4">
-            {{ question.author }}
-            <br>
-            asked some time ago
+            <div class="col-12">
+                <a href="#">{{ question.author }}</a>
+            </div>
+            <div class="cal-12"><small>{{ question.created|naturaltime }}</small></div>
         </div>
     </div>
     {% endfor %}
-{% endblock %}
-{% block trending %}
-        <button type="button">
-            Ask!
-        </button>
-        <h1> Trending </h1>
-        <p>Placeholder for trends</p>
-        <p>Placeholder for trends</p>
-        <p>Placeholder for trends</p>
-        <p>Placeholder for trends</p>
-        <p>Placeholder for trends</p>
 {% endblock %}

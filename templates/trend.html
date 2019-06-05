@@ -1,0 +1,18 @@
+{% block trending %}
+    <div class="container py-2">
+        <form action="/ask/">
+        <button type="submit" class="btn btn-outline-secondary btn-sm btn-block">Ask!</button>
+        </form>
+        <div class="block py-2 text-center">
+        <b>Trending</b>
+        </div>
+    </div>
+        <ul class="list-group list-group-flush">
+        {% for question in questions %}
+            <li class="list-group-item">
+                <span class="badge badge-primary">{{ question.votes_count }}</span>
+                {{ question.title }}
+            </li>
+        {% endfor %}
+        </ul>
+{% endblock %}
