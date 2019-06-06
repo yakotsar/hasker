@@ -13,23 +13,33 @@
         <title>{% block title %}{% endblock %}</title>
     </head>
     <body>
-        <nav class="navbar border-bottom border-dark">
-            <h1 class="col-5">Hasker</h1>
-            <div class="input-group input-group-sm col-5">
-                <div class="input-group-prepend">
-                    <i class="input-group-text material-icons" id="inputGroup-sizing-sm"> search </i>
+        <nav class="navbar border-bottom border-dark justify-content-between no-gutters">
+            <div class="col-auto">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <h1>Hasker</h1>
+                    </div>
+                    <div class="col-auto">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <i class="input-group-text material-icons" id="inputGroup-sizing-sm"> search </i>
+                            </div>
+                            <input class="form-control" type="search" placeholder="$Search" aria-label="Search" aria-describedby="inputGroup-sizing-sm">
+                        </div>
+                    </div>
                 </div>
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search" aria-describedby="inputGroup-sizing-sm">
             </div>
-            <div class="col-2">
-                <span>$User_Block</span>
+            <div class="col-auto">
+                {% block user %}
+                    {% include "user_block.html" %}
+                {% endblock %}
             </div>
         </nav>
-        <div class="container-fluid">
+        <div class="container">
             <div class="row flex-xl-nowrap">
-                <main class="conrainer col-9">
+                <div class="col-9">
                     {% block content %} content {% endblock %}
-                </main>
+                </div>
                 <div class="col-3">
                     {% block trending %}
                         {% include "trend.html" %}

@@ -6,7 +6,6 @@
 {% block content %}
     <div class="row border-bottom justify-content-center">
         <ul class="nav">
-
             <li class="nav-item">
                 <a class="nav-link active" href="#">$New questions</a>
             </li>
@@ -17,26 +16,31 @@
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">$Hot questions</a>
             </li>
         </ul>
+        <form action="/ask/">
+            <button type="submit" class="btn btn-outline-secondary btn-sm btn-block">Ask Question</button>
+        </form>
     </div>
     {% for question in questions %}
-    <div class="row border-bottom py-2">
-        <div class="col-2">{{ question.votes_count }}</div>
-        <div class="col-2">{{ question.answers_count }}</div>
-        <div class="col-8"><b>{{ question.title }}</b></div>
-        <div class="w-100"></div>
-        <div class="col-2"><small>Votes</small></div>
-        <div class="col-2"><small>Answers</small></div>
-        <div class="col-4">
+        <div class="row border-bottom">
+            <div class="col-2"><p class="text-center">{{ question.votes_count }}</p></div>
+            <div class="col-2"><p class="text-center">{{ question.answers_count }}</p></div>
+            <div class="col-8">
+                <a href="#">
+                <p>{{ question.title }}</p>
+                </a>
+            </div>
+            <div class="w-100"></div>
+            <div class="col-2"><p class="text-center"><small>Votes</small></p></div>
+            <div class="col-2"><p class="text-center"><small>Answers</small></p></div>
+            <div class="col-4">
                 {% for tag in question.tags.all %}
                     <span class="badge badge-secondary">{{ tag.tag }}</span>
                 {% endfor %}
-        </div>
-        <div class="col-4">
-            <div class="col-12">
-                <a href="#">{{ question.author }}</a>
             </div>
-            <div class="cal-12"><small>{{ question.created|naturaltime }}</small></div>
+            <div class="col-4 text-right">
+                <a href="#"><small>{{ question.author }}</small></a>
+            </div>
+            <div class="col text-right"><small>{{ question.created|naturaltime }}</small></div>
         </div>
-    </div>
     {% endfor %}
 {% endblock %}
