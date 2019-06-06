@@ -1,0 +1,18 @@
+{% load static %}
+<div class="row no-gutters">
+    <div class="col">
+        <img src="{% static '/avatars/1.png'%}">
+    </div>
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <a href="#">{{ request.user }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <i class="material-icons"> exit_to_app </i>
+            </div>
+        </div>
+    </div>
+</div>
